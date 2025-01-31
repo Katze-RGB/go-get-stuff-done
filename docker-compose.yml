@@ -1,0 +1,45 @@
+services:
+  backend:
+    build: backend
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend:/app
+    command: air backend/main.go -b 0.0.0.0
+    networks:
+      - app
+    container_name: backend
+
+  frontend:
+    build: frontend
+    ports:
+      - 8501:8501
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    restart: always
+    networks:
+      - app
+    container_name: frontend
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PW}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    networks:
+      - app
+
+volumes:
+  postgres-db:
+
+networks:
+  app:
+    driver: bridge
