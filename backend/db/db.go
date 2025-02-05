@@ -15,6 +15,10 @@ type Dbinstance struct {
 	Db *gorm.DB
 }
 
+type RawQuery struct {
+	Query string
+}
+
 var DB Dbinstance
 
 func ConnectDB() {

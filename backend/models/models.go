@@ -40,6 +40,9 @@ type Result struct {
 	Val int
 }
 
+type RawSQLquery struct {
+}
+
 type Task struct {
 	ID              int    `json:"id"`
 	Priority        int    `json:"priority"`
